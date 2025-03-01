@@ -9,6 +9,10 @@ AWS SAMの動作確認を目的として作成。
 - PRD/STG環境に対応
 - API GatewayとEventBridge(Cron)から呼び出される構成
 
+## AWS IAM
+
+[デプロイに必要なポリシー](https://docs.aws.amazon.com/ja_jp/serverless-application-model/latest/developerguide/sam-permissions.html)
+
 ## 事前準備
 
 - SAM CLI - [Install the SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html)
