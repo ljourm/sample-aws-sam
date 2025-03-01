@@ -13,11 +13,10 @@ parallel = true
 lint = true
 
 [default.deploy.parameters]
-capabilities = "CAPABILITY_NAMED_IAM"
 confirm_changeset = true
-resolve_s3 = true
 region = "ap-northeast-1"
 disable_rollback = true
+image_repositories = []
 
 [default.package.parameters]
 resolve_s3 = true
@@ -30,3 +29,17 @@ warm_containers = "EAGER"
 
 [default.local_start_lambda.parameters]
 warm_containers = "EAGER"
+
+[stg.deploy.parameters]
+stack_name = "sample-aws-sam-stg"
+resolve_s3 = true
+s3_prefix = "sample-aws-sam-stg"
+capabilities = "CAPABILITY_NAMED_IAM"
+parameter_overrides = "Env=stg Hoge=stg_hogehoge"
+
+[prd.deploy.parameters]
+stack_name = "sample-aws-sam-prd"
+resolve_s3 = true
+s3_prefix = "sample-aws-sam-prd"
+capabilities = "CAPABILITY_NAMED_IAM"
+parameter_overrides = "Env=prd Hoge=prd_hogehoge"
