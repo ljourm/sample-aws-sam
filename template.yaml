@@ -1,41 +1,62 @@
-AWSTemplateFormatVersion: '2010-09-09'
+AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
 Description: >
-  api
+  sam-sample-aws-sam
 
-  Sample SAM Template for api
-  
+# 独自定義。ESBuildを使ってビルドするための共通設定。
+Metadata: &EsbuildSharedMetadata
+  BuildMethod: esbuild
+  BuildProperties: &EsbuildSharedBuildProperties
+    Format: esm
+    Minify: false
+    Target: es2022
+    OutExtension:
+      - .js=.mjs
+    Sourcemap: true
+
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
   Function:
     Timeout: 3
+    Runtime: nodejs22.x
+    Architectures:
+      - arm64
+  Api:
+    # Stageの生成を無効化するために設定、OpenAPIは使用していない: https://docs.aws.amazon.com/ja_jp/serverless-application-model/latest/developerguide/sam-resource-api.html#sam-api-openapiversion
+    OpenApiVersion: 3.0.2
 
 Resources:
   HelloWorldFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
-      CodeUri: hello-world/
-      Handler: app.lambdaHandler
-      Runtime: nodejs22.x
-      Architectures:
-        - x86_64
+      CodeUri: ./
+      Handler: hello-world.handler
       Events:
         HelloWorld:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /hello
+            Path: /api/v1/hello
             Method: get
+    Metadata:
+      <<: *EsbuildSharedMetadata
+      BuildProperties:
+        <<: *EsbuildSharedBuildProperties
+        EntryPoints:
+          - ./src/api/v1/hello-world.ts
 
-Outputs:
-  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
-  # Find out more about other implicit resources you can reference within SAM
-  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
-  HelloWorldApi:
-    Description: "API Gateway endpoint URL for Prod stage for Hello World function"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/"
-  HelloWorldFunction:
-    Description: "Hello World Lambda Function ARN"
-    Value: !GetAtt HelloWorldFunction.Arn
-  HelloWorldFunctionIamRole:
-    Description: "Implicit IAM Role created for Hello World function"
-    Value: !GetAtt HelloWorldFunctionRole.Arn
+  ScheduledFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./
+      Handler: hello-world.handler
+      Events:
+        ScheduledEvent:
+          Type: Schedule
+          Properties:
+            Schedule: rate(10 minutes)
+    Metadata:
+      <<: *EsbuildSharedMetadata
+      BuildProperties:
+        <<: *EsbuildSharedBuildProperties
+        EntryPoints:
+          - ./src/schedule/hello-world.ts
