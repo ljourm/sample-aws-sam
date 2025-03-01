@@ -2,7 +2,7 @@
   "version": "2.0",
   "routeKey": "$default",
   "rawPath": "/path/to/resource",
-  "rawQueryString": "parameter1=value1&parameter1=value2&parameter2=value",
+  "rawQueryString": "message=param-message",
   "cookies": [
     "cookie1",
     "cookie2"
@@ -12,8 +12,7 @@
     "Header2": "value1,value2"
   },
   "queryStringParameters": {
-    "parameter1": "value1,value2",
-    "parameter2": "value"
+    "message": "param-message"
   },
   "requestContext": {
     "accountId": "123456789012",
@@ -46,7 +45,7 @@
     "domainPrefix": "id",
     "http": {
       "method": "POST",
-      "path": "/path/to/resource",
+      "path": "/api/v1/hello",
       "protocol": "HTTP/1.1",
       "sourceIp": "192.168.0.1/32",
       "userAgent": "agent"
@@ -57,7 +56,7 @@
     "time": "12/Mar/2020:19:03:58 +0000",
     "timeEpoch": 1583348638390
   },
-  "body": "eyJ0ZXN0IjoiYm9keSJ9",
+  "body": "{\"message\":\"body-message\"}",
   "pathParameters": {
     "parameter1": "value1"
   },
