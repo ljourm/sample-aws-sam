@@ -26,9 +26,15 @@ watch = true
 
 [default.local_start_api.parameters]
 warm_containers = "EAGER"
+env_vars = "./local-env.json"
 
 [default.local_start_lambda.parameters]
 warm_containers = "EAGER"
+env_vars = "./local-env.json"
+
+[default.local_invoke.parameters]
+warm_containers = "EAGER"
+env_vars = "./local-env.json"
 
 [stg.deploy.parameters]
 stack_name = "sample-aws-sam-stg"
