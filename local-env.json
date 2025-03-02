@@ -1,6 +1,0 @@
-{
-  "Parameters": {
-    "ENV": "local",
-    "HOGE": "local_hogehoge"
-  }
-}
