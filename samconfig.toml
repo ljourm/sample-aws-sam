@@ -26,26 +26,21 @@ watch = true
 
 [default.local_start_api.parameters]
 warm_containers = "EAGER"
-parameter_overrides = "Env=local Hoge=local_hogehoge"
 
 [default.local_start_lambda.parameters]
 warm_containers = "EAGER"
-parameter_overrides = "Env=local Hoge=local_hogehoge"
 
 [default.local_invoke.parameters]
 warm_containers = "EAGER"
-parameter_overrides = "Env=local Hoge=local_hogehoge"
 
 [stg.deploy.parameters]
 stack_name = "sample-aws-sam-stg"
 resolve_s3 = true
 s3_prefix = "sample-aws-sam-stg"
 capabilities = "CAPABILITY_NAMED_IAM"
-parameter_overrides = "Env=stg Hoge=stg_hogehoge"
 
 [prd.deploy.parameters]
 stack_name = "sample-aws-sam-prd"
 resolve_s3 = true
 s3_prefix = "sample-aws-sam-prd"
 capabilities = "CAPABILITY_NAMED_IAM"
-parameter_overrides = "Env=prd Hoge=prd_hogehoge"

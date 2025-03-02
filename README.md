@@ -21,7 +21,16 @@ AWS SAMの動作確認を目的として作成。
 - Docker
 
 ```sh
+# パッケージのインストール
 $ yarn install
+
+# STG環境のパラメータを編集
+$ cp .env.sample .env.stg
+# -> .env.stgを修正
+
+# PRD環境のパラメータを編集
+$ cp .env.sample .env.prd
+# -> .env.prdを修正
 ```
 
 ## コマンド
@@ -36,10 +45,10 @@ $ sam build
 
 ```sh
 # STG環境にデプロイ
-$ sam deploy --config-env stg
+$ sam deploy --config-env stg --parameter-overrides $(cat .env.stg)
 
 # PRD環境にデプロイ
-$ sam deploy --config-env prd
+$ sam deploy --config-env prd --parameter-overrides $(cat .env.prd)
 ```
 
 ※ samconfig.toml に設定を記載しているため、 `$ sam deploy --guided` のようなguidedの使用は不要
@@ -56,10 +65,12 @@ $ sam delete --config-env prd
 
 ## ローカルテスト
 
+事前にDockerを起動させておき、以下を実施。
+
 ```sh
 # Lambda関数の実行
-$ sam local invoke HelloWorldFunction --event events/apigateway.json
+$ sam local invoke HelloWorldFunction --parameter-overrides $(cat .env.local) --event events/apigateway.json
 
 # APIサーバのエミュレータの起動
-$ sam local start-api
+$ sam local start-api --parameter-overrides $(cat .env.local)
 ```
